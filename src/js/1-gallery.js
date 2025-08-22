@@ -1,3 +1,7 @@
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+
+
 const images = [
   {
     preview:
@@ -64,7 +68,6 @@ const images = [
   },
 ];
 
-
 const ulElem = document.querySelector('ul.gallery');
 
 function imageTemplate(image) {
@@ -87,31 +90,10 @@ function imagesTemplate(images) {
 const markup = imagesTemplate(images);
 ulElem.innerHTML = markup;
 
-ulElem.addEventListener('click', e => {
-    e.preventDefault();
 
-    if(e.target.nodeName !== 'IMG') {
-        return;
-    }
+const gallery = new SimpleLightbox('.gallery-item a', { 
+captionsData: 'alt',
+captionDelay: 250,
+});
 
-    const originalElem = e.target.dataset.source;
-    console.log(originalElem);
 
-    const imageInfo = images.find(img => img.original === originalElem);
-
-    if (!imageInfo) {
-     return;
-    }    
-
-    openModal(imageInfo); 
-})
-
-function openModal(image) {
-    const instance = basicLightbox.create(`
-        <div class="modal">
-            <img src="${image.original}">
-        </div>
-    `)
-
-    instance.show()
-}
